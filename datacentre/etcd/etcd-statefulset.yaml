@@ -1,0 +1,26 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  namespace: datacentre
+  name: etcd
+spec:
+  serviceName: "etcd"
+  podManagementPolicy: Parallel
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        component: etcd
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: etcd
+        image: 172.31.78.217:5000/etcd
+        command: ["/entrypoint.sh"]
+        env:
+        - name: N_NODES
+          value: "3"
+        - name: TOKEN 
+          value: "token-0x00"
+        - name: DSCV 
+          value: "etcd"
