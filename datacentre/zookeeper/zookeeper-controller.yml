@@ -31,10 +31,3 @@ spec:
             configMapKeyRef:
               name: dc-config
               key: tries
-        volumeMounts:
-        - name: gluster-volume
-          mountPath: "/mnt"
-      volumes:
-      - name: gluster-volume
-        persistentVolumeClaim:
-          claimName: glusterfs-pvc

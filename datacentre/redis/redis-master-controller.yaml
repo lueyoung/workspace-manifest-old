@@ -37,13 +37,8 @@ spec:
         - name: "entrypoint-scripts"
           mountPath: "/etc/scripts"
           readOnly: true
-        - name: gluster-volume
-          mountPath: "/mnt"
       volumes:
       - name: entrypoint-scripts
         configMap:
           name: redis-entrypoint-scripts 
           defaultMode: 0755
-      - name: gluster-volume
-        persistentVolumeClaim:
-          claimName: glusterfs-pvc

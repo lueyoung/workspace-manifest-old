@@ -54,10 +54,3 @@ spec:
           requests:
             cpu: 100m
             memory: 2000Mi
-        volumeMounts:
-        - name: gluster-volume
-          mountPath: "/mnt"
-      volumes:
-      - name: gluster-volume
-        persistentVolumeClaim:
-          claimName: glusterfs-pvc
