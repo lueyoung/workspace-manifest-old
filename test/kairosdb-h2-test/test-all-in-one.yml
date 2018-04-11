@@ -1,0 +1,33 @@
+kind: Deployment 
+apiVersion: extensions/v1beta1
+metadata:
+  name: kairosdb-h2-test 
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        test: kairosdb-h2
+    spec:
+      containers:
+        - name: cli
+          image: 172.31.78.217:5000/kairosdb-python-cli
+          command: 
+          - /bin/sh
+          - -c
+          - "while true; do sleep 60; done"
+          env:
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+        - name: kairosdb
+          image: 172.31.78.217:5000/kairosdb:h2
+          command:
+          - /opt/kairosdb/bin/kairosdb.sh
+          - run
+          env:
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP

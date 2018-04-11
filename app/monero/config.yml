@@ -1,0 +1,7 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: monero-config
+data:
+  wallet: "485phNccJgJ2RRtPFvdyD6MTR8emfYrJ7AGmqrNAdswc45qoEQeAd5GZ5yTmS1gGtKJRowXsLtorLSUTcW8kXvkd1T9bqpK"
+  pool: "xmr.crypto-pool.fr:3333"

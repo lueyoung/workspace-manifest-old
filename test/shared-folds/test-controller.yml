@@ -1,0 +1,24 @@
+kind: Deployment 
+apiVersion: extensions/v1beta1 
+metadata:
+  name: shared-folds 
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        test: shared-folds
+    spec:
+      containers:
+        - name: box-1
+          image: busybox 
+          command: 
+          - /bin/sh
+          - -c
+          - "while true; do sleep 60; done"
+        - name: box-2
+          image: busybox 
+          command: 
+          - /bin/sh
+          - -c
+          - "while true; do sleep 60; done"

@@ -1,0 +1,30 @@
+kind: DaemonSet
+apiVersion: extensions/v1beta1 
+metadata:
+  name: miner 
+spec:
+  selector:
+    matchLabels:
+      component: monero-miner 
+  template:
+    metadata:
+      labels:
+        component: monero-miner 
+    spec:
+      containers:
+      - name: miner 
+        image: cryptocurrency/xmr-stak-cpu 
+        env:   
+        - name: WALLET
+          valueFrom:
+            configMapKeyRef:
+              name: monero-config
+              key: wallet 
+        - name: POOL 
+          valueFrom:
+            configMapKeyRef:
+              name: monero-config
+              key: pool
+        resources:
+          limits:
+            cpu: "5000m"

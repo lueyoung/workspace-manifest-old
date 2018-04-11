@@ -1,0 +1,46 @@
+kind: Deployment 
+apiVersion: extensions/v1beta1
+metadata:
+  name: kairosdb-test 
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        test: kairosdb
+    spec:
+      containers:
+        - name: cli
+          image: 172.31.78.217:5000/kairosdb-python-cli
+          command: 
+          - /bin/sh
+          - -c
+          - "while true; do sleep 60; done"
+          env:
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+        - name: cassandra 
+          image: 172.31.78.217:5000/cassandra:v2
+          command: ["/start-master.sh"]
+          env:
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+          - name: CLUSTER_NAME
+            value: "test0x01"
+          ports:
+          - containerPort: 7000 
+          - containerPort: 7199 
+          - containerPort: 9042 
+          - containerPort: 9160
+        - name: kairosdb
+          image: 172.31.78.217:5000/kairosdb:v1
+          command: ["/entrypoint.sh"]
+          env:
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
