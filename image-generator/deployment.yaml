@@ -1,17 +1,18 @@
 kind: Deployment 
 apiVersion: extensions/v1beta1 
 metadata:
-  name: looper 
+  name: image-maker 
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        component: looper 
+        component: image-maker 
     spec:
       containers:
-        - name: looper 
-          image: 172.31.78.217:5000/looper
+        - name: image-maker 
+          image: alpine 
+          command: ["/entrypoint.sh"]
           env:
             - name: POD_IP
               valueFrom:
@@ -44,7 +45,17 @@ spec:
             - name: host-time
               mountPath: /etc/localtime
               readOnly: true
+            - mountPath: /var/run/docker.sock
+              name: docker-socket
+            - mountPath: /bin/docker
+              name: docker-binary
       volumes:
         - name: host-time
           hostPath:
             path: /etc/localtime
+        - name: docker-socket
+          hostPath:
+            path: /var/run/docker.sock
+        - name: docker-binary
+          hostPath:
+            path: /usr/local/bin/docker
