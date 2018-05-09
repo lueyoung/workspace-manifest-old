@@ -84,7 +84,7 @@ data:
       server cAdvisor-3 172.31.78.217:4194 check
     
     frontend linkerd-admin 
-      bind 0.0.0.0:8082
+      bind 0.0.0.0:8092
       option forwardfor
     
       acl vaild_ip src -f /etc/haproxy/white.ip.lst
@@ -280,6 +280,23 @@ data:
     backend test-web 
       balance roundrobin
       server test-web-1 10.254.100.102:8080 check
+
+    frontend prometheus-test 
+      bind 0.0.0.0:8082
+      option forwardfor
+    
+      acl vaild_ip src -f /etc/haproxy/white.ip.lst
+      acl hbs_ip src 1.189.209.20
+    
+      http-request allow if vaild_ip || hbs_ip
+      http-request deny
+    
+      default_backend prometheus-test 
+    
+    backend prometheus-test 
+      balance roundrobin
+      option forwardfor
+      server prometheus-service 10.254.255.178:9090 check
     
     listen stats
       bind    *:9000
