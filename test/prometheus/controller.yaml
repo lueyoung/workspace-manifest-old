@@ -23,7 +23,7 @@ spec:
             - name: host-time
               mountPath: /etc/localtime
               readOnly: true
-            - name: host-path
+            - name: prometheus-config 
               mountPath: /etc/prometheus/prometheus.yml 
               subPath: prometheus.yml
               readOnly: true
@@ -31,6 +31,6 @@ spec:
         - name: host-time
           hostPath:
             path: /etc/localtime
-        - name: host-path
-          hostPath:
-            path: /tmp
+        - name: prometheus-config 
+          configMap:
+            name: prometheus-config
